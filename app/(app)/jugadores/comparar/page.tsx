@@ -161,7 +161,7 @@ export default async function ComparadorPage({
   // Construir la lista de opciones para el picker
   const playerOptions = (playersRaw ?? []).map((p) => {
     const stats = statsMap.get(p.id)
-    const country = p.country as { name: string; code: string; flag_url: string | null } | null
+    const country = p.country as unknown as { name: string; code: string; flag_url: string | null } | null
     return {
       id: p.id,
       name: p.name,
