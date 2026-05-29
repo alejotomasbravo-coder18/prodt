@@ -36,8 +36,12 @@ export default async function LigaPage() {
     .order('joined_at', { ascending: false })
 
   // Para cada liga: count de miembros + ranking completo
+  type MembershipRow = {
+    role: string
+    league: unknown
+  }
   const leaguesWithStats = await Promise.all(
-    (memberships ?? []).map(async (m) => {
+    ((memberships ?? []) as MembershipRow[]).map(async (m) => {
       const league = m.league as {
         id: number
         name: string

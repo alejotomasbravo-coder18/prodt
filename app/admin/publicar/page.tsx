@@ -80,9 +80,9 @@ export default async function AdminPublicarPage() {
           </h2>
           <div className="space-y-3">
             {unpublished.map((m) => {
-              const home = m.home_country as { name: string; code: string }
-              const away = m.away_country as { name: string; code: string }
-              const phase = m.phase as { name: string } | null
+              const home = m.home_country as unknown as { name: string; code: string }
+              const away = m.away_country as unknown as { name: string; code: string }
+              const phase = m.phase as unknown as { name: string } | null
               const matchLabel = `${home?.name} vs ${away?.name}`
 
               return (
@@ -131,8 +131,8 @@ export default async function AdminPublicarPage() {
           </h2>
           <div className="bg-verde-medio border border-verde-borde rounded-lg overflow-hidden">
             {published.map((m, idx) => {
-              const home = m.home_country as { name: string; code: string }
-              const away = m.away_country as { name: string; code: string }
+              const home = m.home_country as unknown as { name: string; code: string }
+              const away = m.away_country as unknown as { name: string; code: string }
               return (
                 <div
                   key={m.id}

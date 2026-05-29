@@ -23,9 +23,9 @@ export default async function RankingPage({ searchParams }: PageProps) {
     .select('league_id, league:leagues(id, name)')
     .eq('user_id', user!.id)
 
-  const myLeagues = (memberships ?? []).map((m) => ({
-    id: (m.league as { id: number; name: string }).id,
-    name: (m.league as { id: number; name: string }).name,
+  const myLeagues = ((memberships ?? []) as unknown as { role: string; league: unknown }[]).map((m) => ({
+    id: (m.league as unknown as { id: number; name: string }).id,
+    name: (m.league as unknown as { id: number; name: string }).name,
   }))
 
   // Ranking global (security_invoker=false en la vista → no necesita service)

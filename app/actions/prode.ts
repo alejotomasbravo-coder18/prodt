@@ -55,7 +55,7 @@ export async function submitPrediction(
     return { error: 'Deadline cerrado. El partido ya comenzó.' }
   }
 
-  const phase = match.phase as { phase_order: number } | null
+  const phase = match.phase as unknown as { phase_order: number } | null
   const phaseOrder = phase?.phase_order ?? 1
 
   // ── 4. Validar inputs según fase ─────────────────────────
@@ -135,7 +135,7 @@ export async function submitPrediction(
   // ── 6. Upsert ────────────────────────────────────────────
   const { error: upsertError } = await supabase
     .from('prode_predictions')
-    .upsert(payload, { onConflict: 'user_id,match_id' })
+    .upsert(payload as any, { onConflict: 'user_id,match_id' })
 
   if (upsertError) {
     console.error('Prode upsert error:', upsertError)

@@ -111,7 +111,7 @@ export default async function JugadoresPage({
         total_clean_sheets: 0,
         matches_played: 0,
       }
-      return { ...p, ...stats, country: p.country as PlayerRow['country'] } as PlayerRow
+      return { ...p, ...stats, country: p.country as unknown as PlayerRow['country'] } as unknown as PlayerRow
     })
     .sort((a, b) => {
       if (b.total_points !== a.total_points) return b.total_points - a.total_points

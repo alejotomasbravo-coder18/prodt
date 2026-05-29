@@ -177,7 +177,7 @@ export default async function ComparadorPage({
     const raw = playersRaw?.find((p) => p.id === id)
     if (!raw) return null
     const stats = statsMap.get(id)
-    const country = raw.country as { name: string; code: string; flag_url: string | null } | null
+    const country = raw.country as unknown as { name: string; code: string; flag_url: string | null } | null
     return {
       id,
       name: raw.name,

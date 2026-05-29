@@ -299,8 +299,8 @@ export async function runPublishPoints(matchId: number): Promise<AdminActionResu
     raw_points: number
   }[] = []
 
-  for (const [playerId, ev] of playerEventsMap.entries()) {
-    const info = playerCountryMap.get(playerId)
+  for (const [playerId, ev] of Array.from(playerEventsMap.entries())) {
+    const info = playerCountryMap.get(playerId) as { countryId: number; position: string } | undefined
     const countryId = info?.countryId
     const position = info?.position ?? 'FWD'
 
@@ -350,7 +350,7 @@ export async function runPublishPoints(matchId: number): Promise<AdminActionResu
   if (playerPointsToInsert.length > 0) {
     await supabase
       .from('player_match_points')
-      .upsert(playerPointsToInsert, { onConflict: 'player_id,match_id' })
+      .upsert(playerPointsToInsert as any, { onConflict: 'player_id,match_id' })
   }
 
   // 6. Para cada usuario con equipo → calcular user_match_scores
@@ -395,7 +395,7 @@ export async function runPublishPoints(matchId: number): Promise<AdminActionResu
 
       if (didNotPlayIds.has(player_id)) {
         // El titular no jugó → buscar suplente de la misma posición
-        const starterPosition = playerCountryMap.get(player_id)?.position as Position | undefined
+        const starterPosition = (playerCountryMap.get(player_id) as { countryId: number; position: string } | undefined)?.position as Position | undefined
         if (starterPosition) {
           const subSlot = SUBSTITUTE_SLOT[starterPosition]
           const subPlayerId = slotToPlayer.get(subSlot)
@@ -443,8 +443,8 @@ export async function runPublishPoints(matchId: number): Promise<AdminActionResu
     .eq('match_id', matchId)
     .eq('evaluated', false)
 
-  const matchResult: MatchResultForProde = {
-    phase_id: match.phase_id,
+  const matchResult: MatchResultForProde = { phase_order: match.phase?.phase_order ?? 1,
+    
     home_score_90: match.home_score_90,
     away_score_90: match.away_score_90,
     home_score_et: match.home_score_et,
@@ -478,7 +478,7 @@ export async function runPublishPoints(matchId: number): Promise<AdminActionResu
   if (allUserScores.length > 0) {
     await supabase
       .from('user_match_scores')
-      .upsert(allUserScores, { onConflict: 'user_id,match_id' })
+      .upsert(allUserScores as any, { onConflict: 'user_id,match_id' })
   }
 
   // 9. Ganador de fecha en ligas privadas → +1 cambio

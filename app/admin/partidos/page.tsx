@@ -65,9 +65,9 @@ export default async function AdminPartidosPage() {
             </h2>
             <div className="space-y-2">
               {(dayMatches ?? []).map((m) => {
-                const home = m.home_country as { id: number; name: string; code: string }
-                const away = m.away_country as { id: number; name: string; code: string }
-                const phase = m.phase as { name: string } | null
+                const home = m.home_country as unknown as { id: number; name: string; code: string }
+                const away = m.away_country as unknown as { id: number; name: string; code: string }
+                const phase = m.phase as unknown as { name: string } | null
 
                 return (
                   <div

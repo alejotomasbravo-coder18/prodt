@@ -88,7 +88,9 @@ export default async function PerfilPage() {
     .select('role, is_league_champion, league:leagues(name)')
     .eq('user_id', user!.id)
 
-  const leagueChampionships = (memberships ?? []).filter((m) => m.is_league_champion)
+  type MembershipRow = { role: string; is_league_champion: boolean; league: unknown }
+  const typedMemberships = (memberships ?? []) as unknown as MembershipRow[]
+  const leagueChampionships = typedMemberships.filter((m) => m.is_league_champion)
 
   // ── Logros ────────────────────────────────────────────
   type Logro = { icon: string; title: string; desc: string; unlocked: boolean }
@@ -102,7 +104,7 @@ export default async function PerfilPage() {
     ...leagueChampionships.map((m) => ({
       icon: '🥇',
       title: `Campeón de liga`,
-      desc: `Ganaste la liga "${(m.league as { name: string })?.name ?? ''}"`,
+      desc: `Ganaste la liga "${(m.league as unknown as { name: string })?.name ?? ''}"`,
       unlocked: true,
     })),
     {
@@ -236,16 +238,16 @@ export default async function PerfilPage() {
       </div>
 
       {/* ── Ligas ── */}
-      {(memberships ?? []).length > 0 && (
+      {typedMemberships.length > 0 && (
         <div className="bg-verde-medio border border-verde-borde rounded-lg p-5 space-y-3">
           <h2
             className="text-xs font-black uppercase tracking-widest text-gris-texto"
             style={{ fontFamily: 'Arial Black, Arial, sans-serif' }}
           >
-            Mis ligas ({memberships!.length})
+            Mis ligas ({typedMemberships.length})
           </h2>
           <div className="space-y-2">
-            {(memberships ?? []).map((m, idx) => {
+            {typedMemberships.map((m, idx) => {
               const league = m.league as { name: string }
               return (
                 <div key={idx} className="flex items-center gap-2">

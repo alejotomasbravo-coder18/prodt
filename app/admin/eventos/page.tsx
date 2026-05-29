@@ -39,8 +39,8 @@ export default async function AdminEventosPage({ searchParams }: PageProps) {
     selectedMatch = matches.find((m) => m.id === selectedMatchId) ?? null
 
     if (selectedMatch) {
-      const home = selectedMatch.home_country as { id: number; name: string; code: string }
-      const away = selectedMatch.away_country as { id: number; name: string; code: string }
+      const home = selectedMatch.home_country as unknown as { id: number; name: string; code: string }
+      const away = selectedMatch.away_country as unknown as { id: number; name: string; code: string }
 
       // Eventos del partido
       const { data: eventsRaw } = await supabase
@@ -58,7 +58,7 @@ export default async function AdminEventosPage({ searchParams }: PageProps) {
         event_type: e.event_type,
         minute: e.minute,
         is_extra_time: e.is_extra_time,
-        player: e.player as { name: string } | null,
+        player: e.player as unknown as { name: string } | null,
       }))
 
       // Jugadores de ambos equipos
@@ -98,8 +98,8 @@ export default async function AdminEventosPage({ searchParams }: PageProps) {
             <p className="text-gris-texto text-sm">No hay partidos finalizados ni en juego.</p>
           ) : (
             (matches ?? []).map((m) => {
-              const home = m.home_country as { id: number; name: string; code: string }
-              const away = m.away_country as { id: number; name: string; code: string }
+              const home = m.home_country as unknown as { id: number; name: string; code: string }
+              const away = m.away_country as unknown as { id: number; name: string; code: string }
               const isSelected = m.id === selectedMatchId
 
               return (
@@ -133,8 +133,8 @@ export default async function AdminEventosPage({ searchParams }: PageProps) {
               className="text-white font-black uppercase tracking-widest text-base"
               style={{ fontFamily: 'Arial Black, Arial, sans-serif' }}
             >
-              {(selectedMatch.home_country as { name: string })?.name} vs{' '}
-              {(selectedMatch.away_country as { name: string })?.name}
+              {(selectedMatch.home_country as unknown as { name: string })?.name} vs{' '}
+              {(selectedMatch.away_country as unknown as { name: string })?.name}
             </h2>
             <p className="text-gris-texto text-xs mt-0.5">
               {new Date(selectedMatch.kickoff_at).toLocaleString('es-AR')}
@@ -146,8 +146,8 @@ export default async function AdminEventosPage({ searchParams }: PageProps) {
             homePlayers={homePlayers}
             awayPlayers={awayPlayers}
             existingEvents={matchEvents}
-            homeCountryName={(selectedMatch.home_country as { name: string })?.name ?? ''}
-            awayCountryName={(selectedMatch.away_country as { name: string })?.name ?? ''}
+            homeCountryName={(selectedMatch.home_country as unknown as { name: string })?.name ?? ''}
+            awayCountryName={(selectedMatch.away_country as unknown as { name: string })?.name ?? ''}
           />
         </div>
       ) : (

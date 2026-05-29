@@ -102,7 +102,7 @@ export default async function ProdePage({ searchParams }: Props) {
   const totalMatches = matchesRaw?.length ?? 0
   const predictedCount = allPreds.length
 
-  const matches = (matchesRaw ?? []) as Match[]
+  const matches = (matchesRaw ?? []) as unknown as Match[]
   const grouped = groupByDate(matches)
 
   // ── UI ────────────────────────────────────────────────────

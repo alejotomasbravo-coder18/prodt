@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
       home_score_et, away_score_et,
       went_to_et, went_to_penalties,
       winner_country_id,
-      home_country_id, away_country_id
+      home_country_id, away_country_id,
+      phase:phases (phase_order)
     `)
     .eq('id', matchId)
     .single()
@@ -60,8 +61,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, evaluated: 0, message: 'No hay predicciones pendientes.' })
   }
 
+  const phaseOrder = (match.phase as unknown as { phase_order: number } | null)?.phase_order ?? 1
+
   const matchResult: MatchResultForProde = {
-    phase_id: match.phase_id,
+    phase_order: phaseOrder,
     home_score_90: match.home_score_90,
     away_score_90: match.away_score_90,
     home_score_et: match.home_score_et,
