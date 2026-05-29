@@ -19,7 +19,7 @@ export default async function GranDtPage() {
     .eq('is_active', true)
     .order('name', { ascending: true })
 
-  const allPlayers = (playersRaw ?? []) as (Player & { country?: Country })[]
+  const allPlayers = (playersRaw ?? []) as unknown as (Player & { country?: Country })[]
 
   // ── Equipo actual del usuario ─────────────────────────────
   const { data: team } = await supabase
