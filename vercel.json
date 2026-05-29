@@ -1,12 +1,6 @@
 {
-  "crons": [
-    {
-      "path": "/api/sync-match",
-      "schedule": "*/30 * * * *"
-    },
-    {
-      "path": "/api/sync-news",
-      "schedule": "*/30 * * * *"
-    }
-  ]
+  "crons": [{
+    "path": "/api/sync-news",
+    "schedule": "0 8 * * *"
+  }]
 }
