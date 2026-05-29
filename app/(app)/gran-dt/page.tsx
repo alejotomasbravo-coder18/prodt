@@ -45,7 +45,7 @@ export default async function GranDtPage() {
 
     for (const tp of teamPlayers ?? []) {
       if (tp.player) {
-        slotsMap.set(tp.slot, tp.player as Player & { country?: Country })
+        slotsMap.set(tp.slot, tp.player as unknown as Player & { country?: Country })
       }
     }
   }
